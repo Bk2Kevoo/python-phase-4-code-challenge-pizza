@@ -31,7 +31,7 @@ class RestaurantById(Resource):
             restaurant = Restaurant.query.get_or_404(id)
             return restaurant.to_dict(), 200
         except Exception as e:
-            return {"error": "The Restaurant is not found"}, 404
+            return {"error": "Restaurant not found"}, 404
 
     def delete(self, id):
         try:
