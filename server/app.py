@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 from models import db, Restaurant, RestaurantPizza, Pizza
 from flask_restful import Api, Resource
 from flask_migrate import Migrate
@@ -32,7 +31,7 @@ class RestaurantById(Resource):
             restaurant = Restaurant.query.get_or_404(id)
             return restaurant.to_dict(), 200
         except Exception as e:
-            return {"error": "Restaurant not found"}, 404
+            return {"error": "The Restaurant is not found"}, 404
 
     def delete(self, id):
         try:
@@ -70,14 +69,14 @@ class RestaurantPizzas(Resource):
     def post(self):
         try:
             data = request.get_json()
-            new_restaurant_pizza = RestaurantPizza(
+            new_restaurant_obj = RestaurantPizza(
                 price=data["price"],
                 pizza_id=data["pizza_id"],
                 restaurant_id=data["restaurant_id"]
             )
-            db.session.add(new_restaurant_pizza)
+            db.session.add(new_restaurant_obj)
             db.session.commit()
-            return make_response(new_restaurant_pizza.to_dict(), 201)
+            return make_response(new_restaurant_obj.to_dict(), 201)
         except ValueError as e:
             return {"errors": ["validation errors"]}, 400
         except Exception as e:
